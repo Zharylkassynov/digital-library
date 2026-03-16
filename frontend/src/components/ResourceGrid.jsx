@@ -65,7 +65,7 @@ export default function ResourceGrid({
           ref={(el) => {
             if (el) cardRefs.current.set(resource.id, el)
           }}
-          data-delay={Math.min(index + 1, 10)}
+          data-delay={Math.min(index + 1, 20)}
           className="flex min-w-0 w-full opacity-0"
         >
           <ResourceCard

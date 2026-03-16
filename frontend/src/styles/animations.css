@@ -35,24 +35,55 @@
   }
 }
 
-@keyframes scroll-reveal {
+/* Premium card entrance: subtle scale + translate, smooth ease-out-expo */
+@keyframes card-entrance {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(16px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
+/* Legacy name for compatibility */
+@keyframes scroll-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Easing: ease-out-expo — snappy start, soft landing (premium feel) */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .card-hover-animation {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo);
 }
 
 .card-hover-animation:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.15), 0 8px 10px -6px rgba(139, 92, 246, 0.1);
+  transform: scale(1.03) translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.25),
+    0 12px 24px -8px rgba(99, 102, 241, 0.2),
+    0 8px 16px -6px rgba(139, 92, 246, 0.15);
+}
+
+/* Card image hover: same premium easing */
+.card-image-zoom {
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.card-hover-animation:hover .card-image-zoom {
+  transform: scale(1.05);
 }
 
 .modal-backdrop-animation {
@@ -63,17 +94,29 @@
   animation: modal-scale-in 0.25s ease-out;
 }
 
+/* Card entrance: 0.5s, ease-out-expo — smooth and natural */
 .scroll-reveal {
-  animation: scroll-reveal 0.6s ease-out forwards;
+  animation: card-entrance 0.5s var(--ease-out-expo) forwards;
 }
 
-.scroll-reveal-delay-1 { animation-delay: 0.05s; }
-.scroll-reveal-delay-2 { animation-delay: 0.1s; }
-.scroll-reveal-delay-3 { animation-delay: 0.15s; }
-.scroll-reveal-delay-4 { animation-delay: 0.2s; }
-.scroll-reveal-delay-5 { animation-delay: 0.25s; }
-.scroll-reveal-delay-6 { animation-delay: 0.3s; }
-.scroll-reveal-delay-7 { animation-delay: 0.35s; }
-.scroll-reveal-delay-8 { animation-delay: 0.4s; }
-.scroll-reveal-delay-9 { animation-delay: 0.45s; }
-.scroll-reveal-delay-10 { animation-delay: 0.5s; }
+/* Stagger: 45ms steps — smooth cascade without feeling slow */
+.scroll-reveal-delay-1 { animation-delay: 0.03s; }
+.scroll-reveal-delay-2 { animation-delay: 0.06s; }
+.scroll-reveal-delay-3 { animation-delay: 0.09s; }
+.scroll-reveal-delay-4 { animation-delay: 0.12s; }
+.scroll-reveal-delay-5 { animation-delay: 0.15s; }
+.scroll-reveal-delay-6 { animation-delay: 0.18s; }
+.scroll-reveal-delay-7 { animation-delay: 0.21s; }
+.scroll-reveal-delay-8 { animation-delay: 0.24s; }
+.scroll-reveal-delay-9 { animation-delay: 0.27s; }
+.scroll-reveal-delay-10 { animation-delay: 0.3s; }
+.scroll-reveal-delay-11 { animation-delay: 0.33s; }
+.scroll-reveal-delay-12 { animation-delay: 0.36s; }
+.scroll-reveal-delay-13 { animation-delay: 0.39s; }
+.scroll-reveal-delay-14 { animation-delay: 0.42s; }
+.scroll-reveal-delay-15 { animation-delay: 0.45s; }
+.scroll-reveal-delay-16 { animation-delay: 0.48s; }
+.scroll-reveal-delay-17 { animation-delay: 0.51s; }
+.scroll-reveal-delay-18 { animation-delay: 0.54s; }
+.scroll-reveal-delay-19 { animation-delay: 0.57s; }
+.scroll-reveal-delay-20 { animation-delay: 0.6s; }

@@ -10,7 +10,7 @@ export default function ResourceCard({ resource, onOpen, onBookmark, isBookmarke
   const year = resource.year || resource.publishedYear || ''
 
   return (
-    <article className="card-hover-animation flex h-full min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur transition">
+    <article className="card-hover-animation flex h-full min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur">
       <button
         type="button"
         onClick={() => onOpen(resource)}
@@ -20,7 +20,7 @@ export default function ResourceCard({ resource, onOpen, onBookmark, isBookmarke
           <img
             src={imageUrl}
             alt=""
-            className="h-full w-full object-cover transition group-hover:scale-105"
+            className="card-image-zoom h-full w-full object-cover"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-slate-500">
