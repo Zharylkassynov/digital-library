@@ -1,24 +1,24 @@
-const { db } = require('../config/db');
+const { db } = require("../config/db");
 
 function getAll(options = {}) {
   const { search, category, type } = options;
-  let sql = 'SELECT * FROM resources WHERE 1=1';
+  let sql = "SELECT * FROM resources WHERE 1=1";
   const params = [];
 
   if (search && search.trim()) {
-    sql += ' AND title LIKE ?';
+    sql += " AND title LIKE ?";
     params.push(`%${search.trim()}%`);
   }
   if (category && category.trim()) {
-    sql += ' AND category = ?';
+    sql += " AND category = ?";
     params.push(category.trim());
   }
   if (type && type.trim()) {
-    sql += ' AND type = ?';
+    sql += " AND type = ?";
     params.push(type.trim());
   }
 
-  sql += ' ORDER BY id';
+  sql += " ORDER BY id";
 
   return new Promise((resolve, reject) => {
     db.all(sql, params, (err, rows) => {
@@ -30,23 +30,10 @@ function getAll(options = {}) {
 
 function getById(id) {
   return new Promise((resolve, reject) => {
-    db.get('SELECT * FROM resources WHERE id = ?', [id], (err, row) => {
+    db.get("SELECT * FROM resources WHERE id = ?", [id], (err, row) => {
       if (err) reject(err);
       else resolve(row);
     });
-  });
-}
-
-function getRandom(limit = 10) {
-  return new Promise((resolve, reject) => {
-    db.all(
-      'SELECT * FROM resources ORDER BY RANDOM() LIMIT ?',
-      [limit],
-      (err, rows) => {
-        if (err) reject(err);
-        else resolve(rows);
-      }
-    );
   });
 }
 
@@ -63,7 +50,7 @@ function insert(resource) {
     resource.author,
     resource.year,
     resource.image || null,
-    resource.link || null
+    resource.link || null,
   ];
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
@@ -80,7 +67,6 @@ function insertMany(resources) {
 module.exports = {
   getAll,
   getById,
-  getRandom,
   insert,
-  insertMany
+  insertMany,
 };
