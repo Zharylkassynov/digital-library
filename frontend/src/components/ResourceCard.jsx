@@ -10,7 +10,7 @@ export default function ResourceCard({ resource, onOpen, onBookmark, isBookmarke
   const year = resource.year || resource.publishedYear || ''
 
   return (
-    <article className="card-hover-animation flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur transition">
+    <article className="card-hover-animation flex h-full min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur transition">
       <button
         type="button"
         onClick={() => onOpen(resource)}

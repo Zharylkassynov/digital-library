@@ -30,11 +30,11 @@ export default function ResourceGrid({
 
   if (loading) {
     return (
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
-            className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4"
+            className="flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4"
           >
             <div className="aspect-[3/4] w-full animate-pulse rounded-lg bg-white/10" />
             <div className="mt-4 h-4 w-3/4 animate-pulse rounded bg-white/10" />
@@ -58,7 +58,7 @@ export default function ResourceGrid({
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {resources.map((resource, index) => (
         <div
           key={resource.id}
@@ -66,7 +66,7 @@ export default function ResourceGrid({
             if (el) cardRefs.current.set(resource.id, el)
           }}
           data-delay={Math.min(index + 1, 10)}
-          className="flex opacity-0"
+          className="flex min-w-0 w-full opacity-0"
         >
           <ResourceCard
             resource={resource}
