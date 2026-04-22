@@ -1,9 +1,10 @@
 import { BookOpen, Github, Linkedin } from "lucide-react";
+import { Link } from "react-router-dom"; // Добавь этот импорт
 
 const footerLinks = [
-  { label: "About", href: "#" },
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms", href: "#" },
+  { label: "About", href: "/about" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 export default function Footer() {
@@ -24,42 +25,42 @@ export default function Footer() {
               </p>
             </div>
           </div>
+          
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 sm:justify-center">
             {footerLinks.map(({ label, href }) => (
-              <a
+              <Link // Заменили <a> на <Link>
                 key={label}
-                href={href}
+                to={href} // Заменили href на to
                 className="rounded-lg px-2 py-2 text-sm text-slate-400 transition hover:bg-white/5 hover:text-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/50"
               >
                 {label}
-              </a>
+              </Link>
             ))}
           </nav>
+
           <div className="flex items-center justify-center gap-2">
             <span className="mr-2 hidden text-xs text-slate-500 sm:inline">
               Follow
             </span>
             <a
-              href="https://github.com"
+              href="https://github.com/Zharylkassynov"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/50"
-              aria-label="GitHub"
+              className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-[#22d3ee]"
             >
               <Github className="h-5 w-5" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/..."
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-[#22d3ee] focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/50"
-              aria-label="LinkedIn"
+              className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-[#22d3ee]"
             >
               <Linkedin className="h-5 w-5" />
             </a>
           </div>
         </div>
-        <p className="mt-8 border-t border-white/5 pt-6 text-center ml-12 text-xs text-slate-600">
+        <p className="mt-8 border-t border-white/5 pt-6 text-center text-xs text-slate-600">
           © {new Date().getFullYear()} Digital Library. All rights reserved.
         </p>
       </div>

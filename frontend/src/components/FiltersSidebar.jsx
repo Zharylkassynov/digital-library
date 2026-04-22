@@ -4,10 +4,13 @@ import { FolderOpen, FileText, ChevronDown } from 'lucide-react'
 
 const CATEGORIES = [
   { value: '', label: 'All Categories' },
+  { value: 'Business', label: 'Business' },
+  { value: 'Classic', label: 'Classic' },
   { value: 'Computer Science', label: 'Computer Science' },
   { value: 'Engineering', label: 'Engineering' },
-  { value: 'Business', label: 'Business' },
+  { value: 'Fantasy', label: 'Fantasy' },
   { value: 'Research', label: 'Research' },
+  { value: 'Science Fiction', label: 'Science Fiction' },
 ]
 
 const TYPES = [
