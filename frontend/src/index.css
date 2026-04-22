@@ -8,3 +8,31 @@ body {
   background-color: #0a0a0f;
   color: #f8fafc;
 }
+
+/* Admin — reports list: slim themed scrollbar (Firefox + WebKit) */
+.admin-reports-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.55) rgba(255, 255, 255, 0.04);
+  padding-right: 0.25rem;
+}
+
+.admin-reports-scroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.admin-reports-scroll::-webkit-scrollbar-track {
+  margin: 6px 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(99, 102, 241, 0.06) 50%, rgba(255, 255, 255, 0.03) 100%);
+  border-radius: 9999px;
+}
+
+.admin-reports-scroll::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #6366f1 0%, #22d3ee 100%);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.admin-reports-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #7c3aed 0%, #2dd4bf 100%);
+}

@@ -4,40 +4,25 @@ import { ArrowLeft } from 'lucide-react'
 import ResourceGrid from '../components/ResourceGrid'
 import ResourceModal from '../components/ResourceModal'
 import { useBookmarks } from '../hooks/useBookmarks'
-import { fetchResourceById } from '../api/api'
 
 export default function SavedPage() {
-  const [savedResources, setSavedResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedResource, setSelectedResource] = useState(null)
-  const { bookmarkIds, isBookmarked, toggleBookmark } = useBookmarks()
+  const {
+    savedResources,
+    isBookmarked,
+    toggleBookmark,
+    bookmarkEnabled,
+    bookmarksLoading,
+  } = useBookmarks()
 
   useEffect(() => {
-    if (!bookmarkIds.length) {
-      setSavedResources([])
+    if (!bookmarkEnabled) {
       setLoading(false)
       return
     }
-    let cancelled = false
-    setLoading(true)
-    Promise.allSettled(bookmarkIds.map((id) => fetchResourceById(id)))
-      .then((results) => {
-        if (!cancelled) {
-          setSavedResources(
-            results
-              .filter((r) => r.status === 'fulfilled' && r.value)
-              .map((r) => r.value)
-          )
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setSavedResources([])
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
-    return () => { cancelled = true }
-  }, [bookmarkIds.join(',')])
+    setLoading(bookmarksLoading)
+  }, [bookmarkEnabled, bookmarksLoading])
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -51,20 +36,34 @@ export default function SavedPage() {
           Back to Library
         </Link>
       </div>
-      <ResourceGrid
-        resources={savedResources}
-        loading={loading}
-        onOpenModal={setSelectedResource}
-        onBookmark={toggleBookmark}
-        isBookmarked={isBookmarked}
-        emptyMessage="You haven't saved any resources yet. Browse the library and bookmark items you like."
-      />
+      {!bookmarkEnabled ? (
+        <div className="rounded-2xl border border-white/10 bg-white/5 px-6 py-12 text-center text-slate-400">
+          <p className="mb-4">Log in to save and view your favorites in the cloud.</p>
+          <Link
+            to="/login"
+            className="inline-block rounded-xl bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] px-5 py-2.5 text-sm font-medium text-white"
+          >
+            Log in
+          </Link>
+        </div>
+      ) : (
+        <ResourceGrid
+          resources={savedResources}
+          loading={loading}
+          onOpenModal={setSelectedResource}
+          onBookmark={toggleBookmark}
+          isBookmarked={isBookmarked}
+          bookmarkEnabled={bookmarkEnabled}
+          emptyMessage="You haven't saved any resources yet. Browse the library and bookmark items you like."
+        />
+      )}
       {selectedResource && (
         <ResourceModal
           resource={selectedResource}
           onClose={() => setSelectedResource(null)}
           onBookmark={toggleBookmark}
           isBookmarked={isBookmarked}
+          bookmarkEnabled={bookmarkEnabled}
         />
       )}
     </div>

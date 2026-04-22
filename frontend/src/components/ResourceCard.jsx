@@ -1,13 +1,19 @@
-import { ExternalLink, Bookmark } from 'lucide-react'
-import { getImageUrl } from '../api/api'
+import { ExternalLink, Bookmark } from "lucide-react";
+import { getImageUrl } from "../api/api";
 
-export default function ResourceCard({ resource, onOpen, onBookmark, isBookmarked }) {
-  const imageUrl = getImageUrl(resource.image || resource.imageUrl)
-  const title = resource.title || resource.name || 'Untitled'
-  const description = resource.description || resource.summary || ''
-  const category = resource.category || ''
-  const author = resource.author || resource.authors?.[0] || ''
-  const year = resource.year || resource.publishedYear || ''
+export default function ResourceCard({
+  resource,
+  onOpen,
+  onBookmark,
+  isBookmarked,
+  bookmarkEnabled = true,
+}) {
+  const imageUrl = getImageUrl(resource.image || resource.imageUrl);
+  const title = resource.title || resource.name || "Untitled";
+  const description = resource.description || resource.summary || "";
+  const category = resource.category || "";
+  const author = resource.author || resource.authors?.[0] || "";
+  const year = resource.year || resource.publishedYear || "";
 
   return (
     <article className="card-hover-animation flex h-full min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur">
@@ -40,7 +46,9 @@ export default function ResourceCard({ resource, onOpen, onBookmark, isBookmarke
         </button>
         <div className="mb-2 min-h-10 shrink-0">
           {description ? (
-            <p className="line-clamp-2 text-sm leading-snug text-slate-400">{description}</p>
+            <p className="line-clamp-2 text-sm leading-snug text-slate-400">
+              {description}
+            </p>
           ) : (
             <span className="inline-block text-sm text-slate-500/50">—</span>
           )}
@@ -65,20 +73,22 @@ export default function ResourceCard({ resource, onOpen, onBookmark, isBookmarke
           </button>
           <button
             type="button"
+            disabled={!bookmarkEnabled}
+            title={!bookmarkEnabled ? "Log in to save favorites" : undefined}
             onClick={() => onBookmark(resource.id)}
             className={`rounded-lg border px-3 py-2 transition ${
               isBookmarked
-                ? 'border-[#22d3ee] bg-[#22d3ee]/20 text-[#22d3ee]'
-                : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20 hover:text-white'
-            }`}
-            aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+                ? "border-[#22d3ee] bg-[#22d3ee]/20 text-[#22d3ee]"
+                : "border-white/10 bg-white/5 text-slate-400 hover:border-white/20 hover:text-white"
+            } disabled:cursor-not-allowed disabled:opacity-40`}
+            aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
           >
             <Bookmark
-              className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`}
+              className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`}
             />
           </button>
         </div>
       </div>
     </article>
-  )
+  );
 }

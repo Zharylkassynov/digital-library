@@ -9,6 +9,7 @@ export default function ResourceGrid({
   onOpenModal,
   onBookmark,
   isBookmarked,
+  bookmarkEnabled = true,
   emptyMessage = 'No resources found.',
 }) {
   const cardRefs = useRef(new Map())
@@ -73,6 +74,7 @@ export default function ResourceGrid({
             onOpen={onOpenModal}
             onBookmark={onBookmark}
             isBookmarked={isBookmarked(resource.id)}
+            bookmarkEnabled={bookmarkEnabled}
           />
         </div>
       ))}

@@ -1,9 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { X, ExternalLink, Bookmark } from 'lucide-react'
-import { getImageUrl } from '../api/api'
+import { getImageUrl, recordResourceView } from '../api/api'
 
-export default function ResourceModal({ resource, onClose, onBookmark, isBookmarked }) {
+export default function ResourceModal({
+  resource,
+  onClose,
+  onBookmark,
+  isBookmarked,
+  bookmarkEnabled = true,
+}) {
   const overlayRef = useRef(null)
+  const viewRecordedThisOpen = useRef(new Set())
 
   if (!resource) return null
 
@@ -33,6 +40,18 @@ export default function ResourceModal({ resource, onClose, onBookmark, isBookmar
     }
   }, [])
 
+  // One count per open; blocks duplicate POST from React 18 StrictMode.
+  useEffect(() => {
+    if (!resource?.id) {
+      viewRecordedThisOpen.current.clear()
+      return
+    }
+    const id = resource.id
+    if (viewRecordedThisOpen.current.has(id)) return
+    viewRecordedThisOpen.current.add(id)
+    recordResourceView(id)
+  }, [resource?.id])
+
   return (
     <div
       ref={overlayRef}
@@ -61,7 +80,6 @@ export default function ResourceModal({ resource, onClose, onBookmark, isBookmar
           <X className="h-5 w-5" />
         </button>
         <div className="flex max-h-[90vh] flex-col overflow-y-auto sm:flex-row">
-          {/* Book cover — full image visible, constrained size */}
           <div className="flex-shrink-0 bg-gradient-to-b from-slate-900/80 to-[#0a0a0f] sm:w-72">
             <div className="flex min-h-[200px] items-center justify-center p-6 sm:min-h-[280px] sm:p-8">
               {imageUrl ? (
@@ -79,7 +97,6 @@ export default function ResourceModal({ resource, onClose, onBookmark, isBookmar
             </div>
           </div>
 
-          {/* Content */}
           <div className="flex flex-1 flex-col p-6 sm:p-8">
             <h2 id="modal-title" className="mb-3 text-2xl font-bold leading-tight text-white sm:text-3xl">
               {title}
@@ -120,8 +137,10 @@ export default function ResourceModal({ resource, onClose, onBookmark, isBookmar
               </a>
               <button
                 type="button"
+                disabled={!bookmarkEnabled}
+                title={!bookmarkEnabled ? 'Log in to save favorites' : undefined}
                 onClick={() => onBookmark(resource.id)}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3.5 font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] focus:ring-[#22d3ee] ${
+                className={`inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3.5 font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] focus:ring-[#22d3ee] disabled:cursor-not-allowed disabled:opacity-40 ${
                   bookmarked
                     ? 'border-[#22d3ee] bg-[#22d3ee]/20 text-[#22d3ee]'
                     : 'border-white/15 bg-white/5 text-slate-400 hover:border-white/25 hover:bg-white/10 hover:text-white'

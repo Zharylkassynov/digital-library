@@ -16,8 +16,12 @@ export default function Footer() {
               <BookOpen className="h-5 w-5" />
             </span>
             <div className="text-center sm:text-left">
-              <p className="text-base font-semibold tracking-tight text-white">Digital Library</p>
-              <p className="text-xs text-slate-500">Your resources, one place</p>
+              <p className="text-base font-semibold tracking-tight text-white">
+                Digital Library
+              </p>
+              <p className="text-xs text-slate-500">
+                Your resources, one place
+              </p>
             </div>
           </div>
           <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 sm:justify-center">
@@ -32,7 +36,9 @@ export default function Footer() {
             ))}
           </nav>
           <div className="flex items-center justify-center gap-2">
-            <span className="mr-2 hidden text-xs text-slate-500 sm:inline">Follow</span>
+            <span className="mr-2 hidden text-xs text-slate-500 sm:inline">
+              Follow
+            </span>
             <a
               href="https://github.com"
               target="_blank"
@@ -53,7 +59,7 @@ export default function Footer() {
             </a>
           </div>
         </div>
-        <p className="mt-8 border-t border-white/5 pt-6 text-center text-xs text-slate-600">
+        <p className="mt-8 border-t border-white/5 pt-6 text-center ml-12 text-xs text-slate-600">
           © {new Date().getFullYear()} Digital Library. All rights reserved.
         </p>
       </div>

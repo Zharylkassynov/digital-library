@@ -3,6 +3,7 @@ import SearchBar from '../components/SearchBar'
 import FiltersSidebar from '../components/FiltersSidebar'
 import ResourceGrid from '../components/ResourceGrid'
 import ResourceModal from '../components/ResourceModal'
+import SiteReportSection from '../components/SiteReportSection'
 import { useBookmarks } from '../hooks/useBookmarks'
 import { fetchResources } from '../api/api'
 
@@ -19,7 +20,7 @@ export default function HomePage() {
   const [type, setType] = useState('')
   const [selectedResource, setSelectedResource] = useState(null)
   const [page, setPage] = useState(1)
-  const { isBookmarked, toggleBookmark } = useBookmarks()
+  const { isBookmarked, toggleBookmark, bookmarkEnabled } = useBookmarks()
 
   // Debounce search input so we don't hit the API on every keystroke
   useEffect(() => {
@@ -106,6 +107,7 @@ export default function HomePage() {
             onOpenModal={setSelectedResource}
             onBookmark={toggleBookmark}
             isBookmarked={isBookmarked}
+            bookmarkEnabled={bookmarkEnabled}
           />
           {!loading && resources.length > PAGE_SIZE && (
             <div className="mt-8 flex items-center justify-center gap-2">
@@ -138,8 +140,10 @@ export default function HomePage() {
           onClose={() => setSelectedResource(null)}
           onBookmark={toggleBookmark}
           isBookmarked={isBookmarked}
+          bookmarkEnabled={bookmarkEnabled}
         />
       )}
+      <SiteReportSection />
     </div>
   )
 }
