@@ -5,12 +5,14 @@ import ResourceGrid from '../components/ResourceGrid'
 import ResourceModal from '../components/ResourceModal'
 import SiteReportSection from '../components/SiteReportSection'
 import { useBookmarks } from '../hooks/useBookmarks'
+import { useAppSettings } from '../context/AppSettingsContext'
 import { fetchResources } from '../api/api'
 
 const PAGE_SIZE = 9
 const SEARCH_DEBOUNCE_MS = 300
 
 export default function HomePage() {
+  const { t } = useAppSettings()
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -43,6 +45,7 @@ export default function HomePage() {
     fetchResources(queryParams)
       .then((data) => {
         if (!cancelled) {
+          setError(null)
           setResources(Array.isArray(data) ? data : [])
           setPage(1)
         }
@@ -50,14 +53,14 @@ export default function HomePage() {
       .catch((err) => {
         if (!cancelled) {
           setResources([])
-          setError(err?.message || 'Could not connect to the library. Make sure the backend is running at http://localhost:5000.')
+          setError(err?.message || t('home.fetchError'))
         }
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
       })
     return () => { cancelled = true }
-  }, [queryParams])
+  }, [queryParams, t])
 
   // Refetch when user returns to the tab (e.g. after running seed) so changes appear without full reload
   useEffect(() => {
@@ -97,7 +100,7 @@ export default function HomePage() {
             <SearchBar value={search} onChange={setSearch} />
           </div>
           {error && (
-            <div className="mb-6 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-300">
+            <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">
               {error}
             </div>
           )}
@@ -108,6 +111,7 @@ export default function HomePage() {
             onBookmark={toggleBookmark}
             isBookmarked={isBookmarked}
             bookmarkEnabled={bookmarkEnabled}
+            emptyMessage={t('resource.noResources')}
           />
           {!loading && resources.length > PAGE_SIZE && (
             <div className="mt-8 flex items-center justify-center gap-2">
@@ -115,20 +119,20 @@ export default function HomePage() {
                 type="button"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition disabled:opacity-50 hover:enabled:bg-white/10"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 shadow-sm transition hover:enabled:bg-slate-50 disabled:opacity-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:enabled:bg-white/10"
               >
-                Previous
+                {t('home.previous')}
               </button>
-              <span className="px-4 text-sm text-slate-400">
-                Page {page} of {totalPages}
+              <span className="px-4 text-sm text-slate-500 dark:text-slate-400">
+                {t('home.pageOf', { page, total: totalPages })}
               </span>
               <button
                 type="button"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition disabled:opacity-50 hover:enabled:bg-white/10"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 shadow-sm transition hover:enabled:bg-slate-50 disabled:opacity-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:enabled:bg-white/10"
               >
-                Next
+                {t('home.next')}
               </button>
             </div>
           )}

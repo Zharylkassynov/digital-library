@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useAppSettings } from '../context/AppSettingsContext'
 
 function measure(el, set) {
   if (!el) return
@@ -14,6 +15,7 @@ function measure(el, set) {
  * Scrollable list: themed scrollbar, edge fades, right rail with up/down chevrons.
  */
 export default function AdminReportsScroll({ children, className = '' }) {
+  const { t } = useAppSettings()
   const ref = useRef(null)
   const [state, setState] = useState({
     hasOverflow: false,
@@ -50,13 +52,13 @@ export default function AdminReportsScroll({ children, className = '' }) {
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
         {!atTop && hasOverflow && (
           <div
-            className="pointer-events-none absolute left-0 right-0 top-0 z-[1] h-8 bg-gradient-to-b from-[#0a0a0f] to-transparent"
+            className="pointer-events-none absolute left-0 right-0 top-0 z-[1] h-8 bg-gradient-to-b from-white to-transparent dark:from-[#0a0a0f]"
             aria-hidden
           />
         )}
         {!atBottom && hasOverflow && (
           <div
-            className="pointer-events-none absolute bottom-0 left-0 right-0 z-[1] h-8 bg-gradient-to-t from-[#0a0a0f] to-transparent"
+            className="pointer-events-none absolute bottom-0 left-0 right-0 z-[1] h-8 bg-gradient-to-t from-white to-transparent dark:from-[#0a0a0f]"
             aria-hidden
           />
         )}
@@ -72,15 +74,15 @@ export default function AdminReportsScroll({ children, className = '' }) {
 
       {hasOverflow && (
         <div
-          className="flex w-[2.125rem] shrink-0 flex-col items-stretch justify-between self-stretch rounded-xl border border-white/10 bg-gradient-to-b from-[#15151e] to-[#0a0a0c] py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]"
+          className="flex w-[2.125rem] shrink-0 flex-col items-stretch justify-between self-stretch rounded-xl border border-slate-200 bg-gradient-to-b from-slate-100 to-slate-50 py-2 shadow-inner dark:border-white/10 dark:from-[#15151e] dark:to-[#0a0a0c] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]"
         >
           <button
             type="button"
             onClick={() => scrollByDir(-1)}
             disabled={atTop}
             className="mx-auto rounded-lg p-1.5 text-cyan-300/95 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
-            title="Вверх"
-            aria-label="Прокрутить вверх"
+            title={t('scroll.scrollUp')}
+            aria-label={t('scroll.scrollUp')}
           >
             <ChevronUp
               className={`h-[18px] w-[18px] transition ${atTop ? 'text-slate-500' : 'text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.55)]'}`}
@@ -95,8 +97,8 @@ export default function AdminReportsScroll({ children, className = '' }) {
             onClick={() => scrollByDir(1)}
             disabled={atBottom}
             className="mx-auto rounded-lg p-1.5 text-violet-300/95 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
-            title="Вниз"
-            aria-label="Прокрутить вниз"
+            title={t('scroll.scrollDown')}
+            aria-label={t('scroll.scrollDown')}
           >
             <ChevronDown
               className={`h-[18px] w-[18px] transition ${atBottom ? 'text-slate-500' : 'text-violet-300 drop-shadow-[0_0_8px_rgba(167,139,250,0.5)]'}`}

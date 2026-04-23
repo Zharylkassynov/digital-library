@@ -12,7 +12,7 @@ import TermsPage from './pages/TermsPage'
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0a0f]">
+    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-[#0a0a0f] dark:text-slate-100">
       <Header />
       <main className="flex-1">
         <Routes>

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import ResourceCard from './ResourceCard'
+import { useAppSettings } from '../context/AppSettingsContext'
 
 const OBSERVER_OPTIONS = { root: null, rootMargin: '0px', threshold: 0.1 }
 
@@ -10,8 +11,10 @@ export default function ResourceGrid({
   onBookmark,
   isBookmarked,
   bookmarkEnabled = true,
-  emptyMessage = 'No resources found.',
+  emptyMessage,
 }) {
+  const { t } = useAppSettings()
+  const message = emptyMessage ?? t('resource.noResources')
   const cardRefs = useRef(new Map())
 
   useEffect(() => {
@@ -35,14 +38,14 @@ export default function ResourceGrid({
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
-            className="flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4"
+            className="flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5"
           >
-            <div className="aspect-[3/4] w-full animate-pulse rounded-lg bg-white/10" />
-            <div className="mt-4 h-4 w-3/4 animate-pulse rounded bg-white/10" />
-            <div className="mt-2 h-3 w-full animate-pulse rounded bg-white/10" />
+            <div className="aspect-[3/4] w-full animate-pulse rounded-lg bg-slate-200 dark:bg-white/10" />
+            <div className="mt-4 h-4 w-3/4 animate-pulse rounded bg-slate-200 dark:bg-white/10" />
+            <div className="mt-2 h-3 w-full animate-pulse rounded bg-slate-200 dark:bg-white/10" />
             <div className="mt-4 flex gap-2">
-              <div className="h-10 flex-1 animate-pulse rounded-lg bg-white/10" />
-              <div className="h-10 w-10 animate-pulse rounded-lg bg-white/10" />
+              <div className="h-10 flex-1 animate-pulse rounded-lg bg-slate-200 dark:bg-white/10" />
+              <div className="h-10 w-10 animate-pulse rounded-lg bg-slate-200 dark:bg-white/10" />
             </div>
           </div>
         ))}
@@ -52,8 +55,8 @@ export default function ResourceGrid({
 
   if (!resources?.length) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 py-16 text-center backdrop-blur">
-        <p className="text-slate-400">{emptyMessage}</p>
+      <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white/80 py-16 text-center shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+        <p className="text-slate-500 dark:text-slate-400">{message}</p>
       </div>
     )
   }
